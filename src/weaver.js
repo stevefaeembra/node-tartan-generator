@@ -3,7 +3,9 @@ const PNG = require('pngjs').PNG;
 const palette = require('./palette.js');
 
 const setPixel = function (image,x,y,r,g,b) {
+
   // set individual pixel of image
+
   var idx = (image.width * y + x) << 2;
   image.data[idx] = r;
   image.data[idx+1] = g;
@@ -19,7 +21,9 @@ const countThreads = function (sett, scale=1) {
 }
 
 const makeThreadSet = function (sett, scale=1) {
+
   // get thread set (a list of individual thread colour keys)
+
   let result=[];
   sett.forEach((item) => {
     for (var t=0; t< item[0]*scale; t++) {
@@ -33,6 +37,8 @@ const makeTartan = function (sett, scale=1) {
 
   // make tartan from a sett description and scale
   // scale needs to be a power of 2 (e.g. 1=2, 2=4, 3=8 etc)
+  // returns PNG instance
+
   const scaleUp = 2**scale;
   const threadCount = countThreads(sett, scaleUp);
   const threads = makeThreadSet(sett, scaleUp);
