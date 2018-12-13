@@ -1,0 +1,14 @@
+{
+  "name": "node_tartan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pngjs": "^3.3.3"
+  }
+}
