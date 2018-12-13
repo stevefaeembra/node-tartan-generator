@@ -14,7 +14,13 @@ const makeRandomTartan = function () {
     let color = keys[index];
     stripeColours.push([count,color]);
   };
-  return stripeColours;
+
+  // make it symmetrical.
+  var listClone = stripeColours.slice(0);
+  console.log(stripeColours);
+  console.log(listClone.reverse);
+  return stripeColours.concat(listClone.reverse());
 };
+
 
 module.exports = makeRandomTartan;
