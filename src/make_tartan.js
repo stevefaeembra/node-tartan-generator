@@ -1,8 +1,6 @@
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
 
-const im = new PNG({width:256, height:256, filterType: -1});
-
 // colour keys
 
 const palette = {
@@ -46,17 +44,45 @@ const setPixel = function (image,x,y,r,g,b) {
   image.data[idx+3] = 255;
 };
 
-const size = sett.reduce((acc, item) => {
-  return acc += item[0];
-},0);
-console.log(size);
+const countThreads = function (sett) {
+  // get total number of threads in sett
+  return sett.reduce((acc, item) => {
+    return acc += item[0];
+  },0);
+}
+
+const makeThreadSet = function (sett) {
+  // get thread set (a list of individual thread colour keys)
+  let result=[];
+  sett.forEach((item) => {
+    for (var t=0; t< item[0]; t++) {
+      result.push(item[1]);
+    }
+  });
+  return result;
+}
+
+const threadCount = countThreads(sett);
+const threads = makeThreadSet(sett);
+
+const im = new PNG({width:threadCount, height:threadCount, filterType: -1});
 
 for (var y=0;y<im.height;y++) {
   for (var x=0;x<im.width;x++) {
-    var rgb = palette["G"];
-    const r=rgb[0];
-    const g=rgb[1];
-    const b=rgb[2];
+
+    const mx = x % 2;
+    const my = y % 2;
+    let threadColour = [];
+
+    if ((mx+my)%4 === 1) {
+      threadColour = palette[threads[x]];
+    } else {
+      threadColour = palette[threads[y]];
+    };
+
+    const r=threadColour[0];
+    const g=threadColour[1];
+    const b=threadColour[2];
     setPixel(im,x,y,r,g,b);
   }
 };
